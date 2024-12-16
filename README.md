@@ -1,5 +1,14 @@
 # React + TypeScript + Vite
 
+### сокращение путей в Typescript, Vite, Webpack, Rollup и ESBuild
+
+- [Сокращение путей с помощью алиасов ](https://vc.ru/dev/661503-sokrashenie-putei-s-pomoshyu-aliasov)
+
+<hr>
+<hr>
+
+# React + TypeScript + Vite
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

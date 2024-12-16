@@ -20,7 +20,18 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true
+		"noUncheckedSideEffectImports": true,
+
+		// "jsx": "react-jsx",
+		// "esModuleInterop": true,
+		// "moduleResolution": "nodenext",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@assets/*": ["src/assets/*"]
+		}
 	},
-	"include": ["src"]
+	"include": ["src"],
+	// "include": ["src/**/*.ts", "tests/**/*.ts"],
+	"exclude": ["node_modules", ".vscode"]
 }
