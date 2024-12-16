@@ -1,0 +1,10 @@
+.counter {
+	padding: 2em;
+	border: 1px solid #ccc;
+	border-radius: 50% 20% / 10% 40%;
+	background-color: rgba($color: #0f0e0e, $alpha: 1);
+
+	code {
+		background-color: rgba($color: #222222, $alpha: 1);
+	}
+}
