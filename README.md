@@ -5,6 +5,23 @@
 - [Сокращение путей с помощью алиасов ](https://vc.ru/dev/661503-sokrashenie-putei-s-pomoshyu-aliasov)
 
 <hr>
+
+### [Избегайте экспорта по умолчанию](https://basarat.gitbook.io/typescript/main-1/defaultisbad)
+
+Не рекомендуется использовать экспорт по умолчанию, поскольку он может привести к ошибкам в вашем коде. Вместо этого используйте именованные экспорты.
+
+```typescript
+import { Counter } from "@/components/counter/Counter";
+```
+
+`@/components/counter/Counter.tsx`:
+
+```typescript
+export const Counter = () => {
+	// ...
+};
+```
+
 <hr>
 
 # React + TypeScript + Vite

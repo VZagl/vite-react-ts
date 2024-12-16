@@ -1,4 +1,4 @@
-import reactLogo from "../../assets/react.svg";
+import reactLogo from "@/assets/img/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.scss";
 import { Counter } from "@/components/counter/Counter";
