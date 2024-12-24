@@ -11,7 +11,7 @@
 Не рекомендуется использовать экспорт по умолчанию, поскольку он может привести к ошибкам в вашем коде. Вместо этого используйте именованные экспорты.
 
 ```typescript
-import { Counter } from "@/components/counter/Counter";
+import { Counter } from '@/components/counter/Counter';
 ```
 
 `@/components/counter/Counter.tsx`:
@@ -20,6 +20,42 @@ import { Counter } from "@/components/counter/Counter";
 export const Counter = () => {
 	// ...
 };
+```
+
+<hr>
+
+Рекомендованная "Cody" структура проекта:
+
+```bash
+src/
+├── assets/          # Static files like images, fonts, global styles
+├── components/      # Reusable UI components
+│   ├── common/      # Shared basic components (Button, Input, etc)
+│   └── features/    # More complex components grouped by feature
+├── hooks/           # Custom React hooks
+├── layouts/         # Layout components (Header, Footer, etc)
+├── pages/           # Page components for routing
+├── services/        # API calls and external services
+├── store/           # State management (if using Redux/MobX)
+├── types/           # TypeScript type definitions
+└── utils/           # Helper functions and constants
+```
+
+Рекомендованная "QODO GEN" структура проекта:
+
+```bash
+src/
+├── assets/          # Статические файлы, такие как изображения, шрифты, глобальные стили
+├── components/      # Переиспользуемые UI-компоненты
+│   ├── common/      # Общие базовые компоненты (Button, Input и т.д.)
+│   └── features/    # Более сложные компоненты, сгруппированные по функциям
+├── hooks/           # Пользовательские хуки React
+├── layouts/         # Компоненты макета (Header, Footer и т.д.)
+├── pages/           # Компоненты страниц для маршрутизации
+├── services/        # Вызовы API и внешние сервисы
+├── store/           # Управление состоянием (если используется Redux/MobX)
+├── types/           # Определения типов TypeScript
+└── utils/           # Вспомогательные функции и константы
 ```
 
 <hr>
@@ -44,7 +80,7 @@ export default tseslint.config({
 	languageOptions: {
 		// other options...
 		parserOptions: {
-			project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+			project: ['./tsconfig.node.json', './tsconfig.app.json'],
 			tsconfigRootDir: import.meta.dirname,
 		},
 	},
@@ -57,11 +93,11 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from "eslint-plugin-react";
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
 	// Set the react version
-	settings: { react: { version: "18.3" } },
+	settings: { react: { version: '18.3' } },
 	plugins: {
 		// Add the react plugin
 		react,
@@ -70,7 +106,7 @@ export default tseslint.config({
 		// other rules...
 		// Enable its recommended rules
 		...react.configs.recommended.rules,
-		...react.configs["jsx-runtime"].rules,
+		...react.configs['jsx-runtime'].rules,
 	},
 });
 ```
