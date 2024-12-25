@@ -18,6 +18,7 @@ module.exports = {
 		'prettier-plugin-organize-attributes',
 		'prettier-plugin-css-order',
 	],
+	organizeImportsSkipDestructiveCodeActions: true,
 	// htmlWhitespaceSensitivity: 'css',
 	// attributeGroups: ['^class$', '^(id|name)$', '$DEFAULT', '^aria-'],
 	// attributeSort: 'ASC',
