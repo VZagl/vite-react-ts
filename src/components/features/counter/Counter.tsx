@@ -11,8 +11,8 @@ export const Counter = () => {
 				count is {count}
 			</button>
 			<p>
-				Edit <code>src/components/counter/Counter.tsx</code> and save to test
-				HMR
+				Edit <code>src/components/features/counter/Counter.tsx</code> and save
+				to test HMR
 			</p>
 		</div>
 	);

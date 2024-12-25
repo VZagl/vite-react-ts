@@ -1,4 +1,4 @@
-import { Counter } from '@/components/counter/Counter';
+import { Counter } from '@/components/features/counter/Counter';
 
 import reactLogo from '@/assets/img/react.svg';
 import './App.scss';
