@@ -60,6 +60,12 @@ src/
 
 <hr>
 
+## Дополнительная информация
+
+- В статье есть некоторые конструкции, которые считаются ошибочными по мнению автора React Testing Library. Настоятельно рекомендую к прочтению его [статью, где он их подробно разбирает](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
+
+<hr>
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
