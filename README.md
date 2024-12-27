@@ -60,9 +60,18 @@ src/
 
 <hr>
 
+### Vitest
+
+- [Getting Started ](https://vitest.dev/guide/)
+
+<hr>
+
 ## Дополнительная информация
 
 - В статье есть некоторые конструкции, которые считаются ошибочными по мнению автора React Testing Library. Настоятельно рекомендую к прочтению его [статью, где он их подробно разбирает](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
+- [tsconfig.json с комментариями](https://gist.github.com/KRostyslav/82a25c469ffa6652825d58537ac6bc22)
+- [React + TypeScript: необходимый минимум](https://habr.com/ru/companies/timeweb/articles/707744/)
+  - [Шпаргалка по React + TypeScript](https://my-js.org/docs/cheatsheet/react-typescript/)
 
 <hr>
 
