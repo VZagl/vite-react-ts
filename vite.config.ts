@@ -1,13 +1,15 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+/// <reference types="vitest" />
+
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 // import { fileURLToPath, URL } from "url";
 
 export default defineConfig({
 	plugins: [react()],
 	resolve: {
 		alias: [
-			{ find: "@", replacement: "/src" },
-			{ find: "@assets", replacement: "/src/assets" },
+			{ find: '@', replacement: '/src' },
+			{ find: '@assets', replacement: '/src/assets' },
 		],
 		/*
 		alias: {

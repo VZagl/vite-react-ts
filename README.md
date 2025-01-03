@@ -62,7 +62,51 @@ src/
 
 ### Vitest
 
+> Vitest — это замена для библиотеки тестирования Jest, особенно для проектов (в нашем случае React), созданных с помощью Vite. Ранее приложения React, созданные с помощью инструмента сборки `create-react-app` от Facebook, поставлялись с тестовой средой, использующей библиотеку тестирования React (RTL) и уже настроенный Jest.
+>
+> С марта 2023 года поддержка инструмента сборки `create-react-app` прекращена, и команда React рекомендует использовать Vite или Parcel в качестве альтернативы для создания приложений React, если вы не хотите использовать ни один из рекомендуемых фреймворков (NextJs, Remix, Gatsby, Expo).
+
 - [Getting Started ](https://vitest.dev/guide/)
+
+  - [Configuring Vitest ](https://vitest.dev/guide/#configuring-vitest)
+
+    If you are already using Vite, add test property in your Vite config (`vite.config.ts`). You'll also need to add a reference to Vitest types using a [triple slash directive](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-) at the top of your config file.
+
+    ```ts
+    /// <reference types="vitest" />
+    import { defineConfig } from 'vite';
+
+    export default defineConfig({
+    	test: {
+    		// ...
+    	},
+    });
+    ```
+
+- [Mocking](https://vitest.dev/guide/features.html#mocking)
+
+  Vitest поддерживает [happy-dom](https://github.com/capricorn86/happy-dom) или [jsdom](https://github.com/jsdom/jsdom) для имитации DOM и API браузера. Они не поставляются с Vitest, вам нужно будет установить их отдельно:
+
+  ```bash
+  $ yarn add i -D happy-dom
+  # or
+  $ yarn add i -D jsdom
+  ```
+
+  > `happy-dom` работает быстрее, чем `jsdom` но он [содержит ошибки](https://github.com/vitest-dev/vitest/discussions/1607). `jsdom` является старым, проверенным, стабильным решением.
+
+  После этого измените environmentопцию в вашем конфигурационном файле:
+
+  ```js
+  // vitest.config.ts
+  import { defineConfig } from 'vitest/config';
+
+  export default defineConfig({
+  	test: {
+  		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
+  	},
+  });
+  ```
 
 <hr>
 
