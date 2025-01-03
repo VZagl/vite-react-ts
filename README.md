@@ -1,8 +1,34 @@
 # React + TypeScript + Vite
 
-### сокращение путей в Typescript, Vite, Webpack, Rollup и ESBuild
+### Сокращение путей в Typescript, Vite, Webpack, Rollup и ESBuild
 
 - [Сокращение путей с помощью алиасов ](https://vc.ru/dev/661503-sokrashenie-putei-s-pomoshyu-aliasov)
+
+#### При импорте путей по алиасу тесты не работают с ошибкой:
+
+```bash
+Error: Failed to resolve import "@/components/features/counter/Counter" from "src/features/app/App.tsx". Does the file exist?
+```
+
+Чтобы это исправить нужно убрать прописанные в конфиге `Vite` и/или `Vitest` настройки `alias` и [Наиболее практичным решением является установка `vite-tsconfig-paths` и изменение `vite.config.js` (если используется, то и `vitest.config.js`)следующим образом:](https://stackoverflow.com/questions/77794583/how-can-i-add-alias-to-vitest-config-file)
+
+```js
+// install and import tsconfigPaths
+import tsconfigPaths from 'vite-tsconfig-paths';
+
+export default defineConfig({
+	//add tsconfigPaths() below
+	plugins: [tsconfigPaths()],
+
+	// ...
+});
+```
+
+Плагин [vite-tsconfig-paths](https://www.npmjs.com/package/vite-tsconfig-paths):
+
+> Предоставьте Vite возможность разрешать импорт с помощью сопоставления путей TypeScript.
+
+То есть теперь алиасы нужно прописывать только в одном месте - конфиге TypeScript.
 
 <hr>
 
@@ -10,13 +36,13 @@
 
 Не рекомендуется использовать экспорт по умолчанию, поскольку он может привести к ошибкам в вашем коде. Вместо этого используйте именованные экспорты.
 
-```typescript
+```js
 import { Counter } from '@/components/counter/Counter';
 ```
 
 `@/components/counter/Counter.tsx`:
 
-```typescript
+```js
 export const Counter = () => {
 	// ...
 };
@@ -60,42 +86,40 @@ src/
 
 <hr>
 
-### Vitest
+## Тестирование
 
-> Vitest — это замена для библиотеки тестирования Jest, особенно для проектов (в нашем случае React), созданных с помощью Vite. Ранее приложения React, созданные с помощью инструмента сборки `create-react-app` от Facebook, поставлялись с тестовой средой, использующей библиотеку тестирования React (RTL) и уже настроенный Jest.
->
-> С марта 2023 года поддержка инструмента сборки `create-react-app` прекращена, и команда React рекомендует использовать Vite или Parcel в качестве альтернативы для создания приложений React, если вы не хотите использовать ни один из рекомендуемых фреймворков (NextJs, Remix, Gatsby, Expo).
+### [`Vitest` с `React Testing Library` в `React`-приложении, созданом с помощью `Vite`](https://victorbruce82.medium.com/vitest-with-react-testing-library-in-react-created-with-vite-3552f0a9a19a)
+
+`Vitest` — это замена для библиотеки тестирования `Jest`, особенно для проектов (в нашем случае React), созданных с помощью `Vite`. Ранее приложения `React`, созданные с помощью инструмента сборки `create-react-app` от Facebook, поставлялись с тестовой средой, использующей библиотеку тестирования React (RTL) и уже настроенный Jest.
+
+С марта 2023 года поддержка инструмента сборки `create-react-app` прекращена, и команда React рекомендует использовать Vite или Parcel в качестве альтернативы для создания приложений React, если вы не хотите использовать ни один из рекомендуемых фреймворков (NextJs, Remix, Gatsby, Expo).
+
+**Разъяснение разницы между Vitest и библиотекой тестирования React:**
+
+Перед установкой React Testing Library я хочу прояснить разницу между Vitest и React Testing Library и зачем нам обе. Сначала я был в замешательстве, зачем нам нужны две библиотеки тестирования в одном проекте.
+
+> Чтобы прояснить ситуацию, поймите, что **Vitest не является альтернативой React Testing Library**. Они оба дополняют друг друга.
+
+### Vitest
 
 - [Getting Started ](https://vitest.dev/guide/)
 
   - [Configuring Vitest ](https://vitest.dev/guide/#configuring-vitest)
 
-    If you are already using Vite, add test property in your Vite config (`vite.config.ts`). You'll also need to add a reference to Vitest types using a [triple slash directive](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-) at the top of your config file.
+  If you are already using Vite, add test property in your Vite config (`vite.config.ts`). You'll also need to add a reference to Vitest types using a [triple slash directive](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-) at the top of your config file.
 
-    ```ts
-    /// <reference types="vitest" />
-    import { defineConfig } from 'vite';
+  ```js
+  /// <reference types="vitest" />
+  import { defineConfig } from 'vite';
 
-    export default defineConfig({
-    	test: {
-    		// ...
-    	},
-    });
-    ```
-
-- [Mocking](https://vitest.dev/guide/features.html#mocking)
-
-  Vitest поддерживает [happy-dom](https://github.com/capricorn86/happy-dom) или [jsdom](https://github.com/jsdom/jsdom) для имитации DOM и API браузера. Они не поставляются с Vitest, вам нужно будет установить их отдельно:
-
-  ```bash
-  $ yarn add i -D happy-dom
-  # or
-  $ yarn add i -D jsdom
+  export default defineConfig({
+  	test: {
+  		// ...
+  	},
+  });
   ```
 
-  > `happy-dom` работает быстрее, чем `jsdom` но он [содержит ошибки](https://github.com/vitest-dev/vitest/discussions/1607). `jsdom` является старым, проверенным, стабильным решением.
-
-  После этого измените environmentопцию в вашем конфигурационном файле:
+  > `test:{...}` в Vite config (`vite.config.ts`) не работает. Нужно создать `vitest.config.ts`:
 
   ```js
   // vitest.config.ts
@@ -107,6 +131,31 @@ src/
   	},
   });
   ```
+
+### [Mocking](https://vitest.dev/guide/features.html#mocking)
+
+Vitest поддерживает [happy-dom](https://github.com/capricorn86/happy-dom) или [jsdom](https://github.com/jsdom/jsdom) для имитации DOM и API браузера. Они не поставляются с Vitest, вам нужно будет установить их отдельно:
+
+```bash
+$ yarn add i -D happy-dom
+# or
+$ yarn add i -D jsdom
+```
+
+> `happy-dom` работает быстрее, чем `jsdom` но он [содержит ошибки](https://github.com/vitest-dev/vitest/discussions/1607). `jsdom` является старым, проверенным, стабильным решением.
+
+После этого измените `environment` опцию в вашем конфигурационном файле:
+
+```js
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+	test: {
+		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
+	},
+});
+```
 
 <hr>
 
