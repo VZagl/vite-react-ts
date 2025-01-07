@@ -1,0 +1,62 @@
+{
+	// "redhat.telemetry.enabled": true,
+	"workbench.iconTheme": "vscode-icons",
+	"editor.fontSize": 18,
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+	"scm.inputFontSize": 14,
+	"markdown.preview.fontSize": 18,
+	"editor.inlineSuggest.suppressSuggestions": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"notebook.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.tabCompletion": "on",
+	"prettier.useTabs": true,
+	"liveServer.settings.donotShowInfoMsg": true,
+	"editor.linkedEditing": true,
+	"html.hover.references": false,
+	"html.hover.documentation": false,
+	"typescript.experimental.expandableHover": true,
+	"editor.hover.delay": 1000,
+
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[yaml]": {
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+
+	// настройки: Sass (.sass only)
+	"[sass]": {
+		"editor.defaultFormatter": "syler.sass-indented"
+	},
+
+	// настройки: Live Sass Compiler
+	// документация: https://github.com/glenn2223/vscode-live-sass-compiler/blob/HEAD/docs/settings.md#multi-root-workspaces
+	"liveSassCompile.settings.watchOnLaunch": true,
+	"liveSassCompile.settings.useNewCompiler": true,
+	"liveSassCompile.settings.formats": [
+		{
+			"format": "expanded",
+			"extensionName": ".css",
+			"savePath": "~/../css"
+		}
+	],
+	"liveSassCompile.settings.showOutputWindowOn": "Warning",
+	"liveSassCompile.settings.autoprefix": ["> 1%", "last 2 versions"]
+}
