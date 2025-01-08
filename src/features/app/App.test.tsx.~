@@ -1,0 +1,49 @@
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
+import { App } from './App';
+
+describe('App', () => {
+	it('renders the App component', () => {
+		render(<App />);
+
+		screen.debug(); // prints out the jsx in the App component unto the command line
+	});
+
+	it('renders Vite logo', () => {
+		const viteLogo = screen.getByAltText('Vite logo');
+		expect(viteLogo).toBeInTheDocument();
+	});
+
+	it('renders React logo', () => {
+		const reactLogo = screen.getByAltText('React logo');
+		expect(reactLogo).toBeInTheDocument();
+	});
+
+	it('renders the heading', () => {
+		const heading = screen.getByRole('heading', { name: /vite \+ react/i });
+		expect(heading).toBeInTheDocument();
+	});
+
+	it('renders the Counter component', () => {
+		const counter = screen.getByText(
+			/этот блок добавлен для тестирования сортировки атрибутов в JSX/i
+		);
+		expect(counter).toBeInTheDocument();
+	});
+
+	it('renders the paragraph', () => {
+		const paragraph = screen.getByText(
+			/click on the vite and react logos to learn more/i
+		);
+		expect(paragraph).toBeInTheDocument();
+	});
+
+	it('renders the div with specific attributes', () => {
+		const testDiv = screen.getByTestId('my-id');
+		expect(testDiv).toBeInTheDocument();
+		expect(testDiv).toHaveAttribute('data-test', 'test');
+		expect(testDiv).toHaveAttribute('data-test2');
+		expect(testDiv).toHaveAttribute('data-test3');
+	});
+});

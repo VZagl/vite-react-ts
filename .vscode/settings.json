@@ -18,6 +18,7 @@
 	"html.hover.documentation": false,
 	"typescript.experimental.expandableHover": true,
 	"editor.hover.delay": 1000,
+	"emmet.triggerExpansionOnTab": true,
 
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"

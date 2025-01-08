@@ -94,10 +94,10 @@ src/
 
 С марта 2023 года поддержка инструмента сборки `create-react-app` прекращена, и команда React рекомендует использовать Vite или Parcel в качестве альтернативы для создания приложений React, если вы не хотите использовать ни один из рекомендуемых фреймворков (NextJs, Remix, Gatsby, Expo).
 
-**Разъяснение разницы между Vitest и библиотекой тестирования React:**
-
-Перед установкой React Testing Library я хочу прояснить разницу между Vitest и React Testing Library и зачем нам обе. Сначала я был в замешательстве, зачем нам нужны две библиотеки тестирования в одном проекте.
-
+> **Разъяснение разницы между Vitest и React Testing Library:**
+>
+> Перед установкой React Testing Library я хочу прояснить разницу между Vitest и React Testing Library и зачем нам обе. Сначала я был в замешательстве, зачем нам нужны две библиотеки тестирования в одном проекте.
+>
 > Чтобы прояснить ситуацию, поймите, что **Vitest не является альтернативой React Testing Library**. Они оба дополняют друг друга.
 
 ### Vitest
@@ -106,35 +106,112 @@ src/
 
   - [Configuring Vitest ](https://vitest.dev/guide/#configuring-vitest)
 
-  If you are already using Vite, add test property in your Vite config (`vite.config.ts`). You'll also need to add a reference to Vitest types using a [triple slash directive](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-) at the top of your config file.
+    Если вы уже используете Vite, добавьте свойство `test` в конфигурацию Vite.
 
-  ```js
-  /// <reference types="vitest" />
-  import { defineConfig } from 'vite';
+    > **Примечание:** Если вы используете TypeScript, убедитесь, что в файле конфигурации Vite есть директива тройной косой черты `/// <reference types="vitest" />`. Это позволяет TypeScript использовать типы Vitest. Если вы используете JavaScript, этот шаг можно пропустить.
 
-  export default defineConfig({
-  	test: {
-  		// ...
-  	},
-  });
-  ```
+    `vite.config.ts`:
 
-  > `test:{...}` в Vite config (`vite.config.ts`) не работает. Нужно создать `vitest.config.ts`:
+    ```TypeScript
+    /// <reference types="vitest" />
+    import { defineConfig } from 'vite';
 
-  ```js
-  // vitest.config.ts
-  import { defineConfig } from 'vitest/config';
+    export default defineConfig({
+    	test: {
+    		// ...
+    	},
+    });
+    ```
 
-  export default defineConfig({
-  	test: {
-  		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
-  	},
-  });
-  ```
+    Если вы решите иметь два отдельных файла конфигурации для Vite и Vitest, обязательно определите одни и те же параметры Vite в файле конфигурации Vitest, поскольку он будет переопределять ваш файл Vite, а не расширять его. Вы также можете использовать метод mergeConfig из записей vite или vitest/config, чтобы объединить конфигурацию Vite с конфигурацией Vitest:
+
+    ```ts
+    import { defineConfig, mergeConfig } from 'vitest/config';
+    import viteConfig from './vite.config.mjs';
+
+    export default mergeConfig(
+    	viteConfig,
+    	defineConfig({
+    		test: {
+    			// ...
+    		},
+    	})
+    );
+    ```
+
+    > **Примечание:** Однако мы рекомендуем использовать один и тот же файл для Vite и Vitest вместо создания двух отдельных файлов.
+
+    Хорошим решением объединить конфигурацию `Vite` и `Vitest` в одном файле будет следующее: мы можем использовать метод `mergeConfig` из `vite` или `vitest/config`:
+
+    ```ts
+    /// <reference types="vitest" />
+
+    import react from '@vitejs/plugin-react';
+    import { defineConfig as defineViteConfig, mergeConfig } from 'vite';
+    import tsconfigPaths from 'vite-tsconfig-paths';
+    import { defineConfig as defineVitestConfig } from 'vitest/config';
+
+    const viteConfig = defineViteConfig({
+    	plugins: [tsconfigPaths(), react()],
+    });
+
+    const vitestConfig = defineVitestConfig({
+    	test: {
+    		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
+    		globals: true,
+    		setupFiles: ['src/setupTests.js'],
+    	},
+    });
+
+    export default mergeConfig(viteConfig, vitestConfig);
+    ```
+
+<hr>
+
+#### Существуют проблемы:
+
+[From Jest to Vitest - Migration and Benchmark ](https://dev.to/mbarzeev/from-jest-to-vitest-migration-and-benchmark-23pl)
+
+- `ReferenceError: document is not defined`
+  - необходимо определить `environment` в настройках `Vitest`:
+    ```js
+    	test: {
+    		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
+    		//...
+    	},
+    ```
+- `Error: Invalid Chai property: toBeInTheDocument`
+  - `toBeInTheDocument` не является свойством Chai.
+    `toBeInTheDocument` — это API `js-dom` тестовой библиотеки, а часть, ответственная за его включение и добавление его утверждений — это файл настройки теста (в приложении `create react` это файл `testSetup.js` в корне проекта). Я создаю файл конфигурации с именем `vite.config.mjs` и устанавливаю конфигурацию следующим образом:
+    ```js
+    test: {
+    	//...
+    	globals: true,
+    	setupFiles: ['src/setupTests.js'],
+    },
+    ```
+    `src/setupTests.js`:
+    ```js
+    import '@testing-library/jest-dom/vitest';
+    ```
+    Как вы видите, я указываю местоположение файла настройки, который загружает необходимый `jest-dom`, а также обратите внимание, что у меня свойство `globals` установлено в `true`. Это означает, что мне не нужно импортировать те глобальные переменные, которые есть в Jest, такие как `describe`, `expect` и т. д.
+- `ReferenceError: jest is not defined`
+  - Мы используем `jest` в этом тесте для создания функций шпиона/заглушки (`spy`/`stub`) с помощью `jest.fn()`, но у `Vitest` есть другой способ добиться этого — у него та же реализация, но под `vi`. Поэтому вместо этого нам нужно использовать `vi.fn()`
+    ```js
+    import { vi } from 'vitest';
+    ```
+    ```js
+    it('should be able to receive a handler for the "Cancel" button and   execute it upon click', () => {
+    	const onCancellationHandler = vi.fn();
+    	//...
+    });
+    ```
+
+<hr>
 
 ### [Mocking](https://vitest.dev/guide/features.html#mocking)
 
-Vitest поддерживает [happy-dom](https://github.com/capricorn86/happy-dom) или [jsdom](https://github.com/jsdom/jsdom) для имитации DOM и API браузера. Они не поставляются с Vitest, вам нужно будет установить их отдельно:
+`Vitest` поддерживает [happy-dom](https://github.com/capricorn86/happy-dom) или [jsdom](https://github.com/jsdom/jsdom) для имитации DOM и API браузера. Они не поставляются с Vitest, вам нужно будет установить их отдельно:
 
 ```bash
 $ yarn add i -D happy-dom
@@ -157,6 +234,7 @@ export default defineConfig({
 });
 ```
 
+<hr>
 <hr>
 
 ## Дополнительная информация
