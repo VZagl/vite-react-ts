@@ -10,7 +10,7 @@
 Error: Failed to resolve import "@/components/features/counter/Counter" from "src/features/app/App.tsx". Does the file exist?
 ```
 
-Чтобы это исправить нужно убрать прописанные в конфиге `Vite` и/или `Vitest` настройки `alias` и [Наиболее практичным решением является установка `vite-tsconfig-paths` и изменение `vite.config.js` (если используется, то и `vitest.config.js`)следующим образом:](https://stackoverflow.com/questions/77794583/how-can-i-add-alias-to-vitest-config-file)
+Чтобы это исправить нужно убрать прописанные в конфиге `Vite` и/или `Vitest` настройки `alias` и [Наиболее практичным решением является установка `vite-tsconfig-paths` и изменение `vite.config.ts` (если используется, то и `vitest.config.ts`)следующим образом:](https://stackoverflow.com/questions/77794583/how-can-i-add-alias-to-vitest-config-file)
 
 ```js
 // install and import tsconfigPaths
@@ -127,7 +127,7 @@ src/
 
     ```ts
     import { defineConfig, mergeConfig } from 'vitest/config';
-    import viteConfig from './vite.config.mjs';
+    import viteConfig from './vite.config.ts';
 
     export default mergeConfig(
     	viteConfig,
@@ -159,7 +159,7 @@ src/
     	test: {
     		environment: 'jsdom', // 'happy-dom' or 'jsdom' or 'node'
     		globals: true,
-    		setupFiles: ['src/setupTests.js'],
+    		setupFiles: ['src/setupTests.ts'],
     	},
     });
 
@@ -182,15 +182,15 @@ src/
     ```
 - `Error: Invalid Chai property: toBeInTheDocument`
   - `toBeInTheDocument` не является свойством Chai.
-    `toBeInTheDocument` — это API `js-dom` тестовой библиотеки, а часть, ответственная за его включение и добавление его утверждений — это файл настройки теста (в приложении `create react` это файл `testSetup.js` в корне проекта). Я создаю файл конфигурации с именем `vite.config.mjs` и устанавливаю конфигурацию следующим образом:
+    `toBeInTheDocument` — это API `js-dom` тестовой библиотеки, а часть, ответственная за его включение и добавление его утверждений — это файл настройки теста (в приложении `create react` это файл `testSetup.js` в корне проекта). Я создаю файл конфигурации с именем `vite.config.ts` и устанавливаю конфигурацию следующим образом:
     ```js
     test: {
     	//...
     	globals: true,
-    	setupFiles: ['src/setupTests.js'],
+    	setupFiles: ['src/setupTests.ts'],
     },
     ```
-    `src/setupTests.js`:
+    `src/setupTests.ts`:
     ```js
     import '@testing-library/jest-dom/vitest';
     ```
@@ -205,6 +205,16 @@ src/
     	const onCancellationHandler = vi.fn();
     	//...
     });
+    ```
+- `expect(screen.getByText(/click on the vite and react logos/i)).toBeInTheDocument();` - Свойство `toBeInTheDocument` не существует в типе `Assertion<HTMLElement>`
+
+  - необходимо переименовать `setupTests.js` в `setupTests.ts`
+  - а также изменить `setupFiles` в `vite.config.ts`
+    ```js
+    test: {
+      //...
+      setupFiles: ['src/setupTests.ts'],
+    },
     ```
 
 <hr>
