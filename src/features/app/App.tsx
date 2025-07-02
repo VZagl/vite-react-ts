@@ -5,6 +5,7 @@ import './App.scss';
 import viteLogo from '/vite.svg';
 
 export const App = () => {
+	console.log('[App] render');
 	return (
 		<>
 			<div>
