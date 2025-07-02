@@ -253,6 +253,8 @@ export default defineConfig({
 - [tsconfig.json с комментариями](https://gist.github.com/KRostyslav/82a25c469ffa6652825d58537ac6bc22)
 - [React + TypeScript: необходимый минимум](https://habr.com/ru/companies/timeweb/articles/707744/)
   - [Шпаргалка по React + TypeScript](https://my-js.org/docs/cheatsheet/react-typescript/)
+- [Переменные окружения и режимы](https://vitejs.ru/guide/env-and-mode.html)
+  - [Zod: Типизация и валидация Вашего .env (Vite + React и не только)](https://habr.com/ru/articles/743798/)
 
 <hr>
 
